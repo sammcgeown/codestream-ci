@@ -1,1 +1,2 @@
-A collection of Docker image builds for use with VMware vRealize Automation Code Stream CI tasks
+# CodeStream-CI
+Base docker image for use with vRealize Automation Code Stream
