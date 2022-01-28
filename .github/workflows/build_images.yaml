@@ -72,4 +72,4 @@ jobs:
           file: ./Dockerfile.photon
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: "${DOCKER_IMAGE}:photon"
+          tags: "${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY#*/}:photon"
