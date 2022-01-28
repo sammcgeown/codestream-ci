@@ -4,7 +4,12 @@ name: 'build images'
 on:
   push:
     branches:
-      - master
+      - 'master'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'master'
 
 jobs:
   docker:
