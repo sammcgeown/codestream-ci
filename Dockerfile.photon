@@ -1,0 +1,9 @@
+FROM photon:latest
+LABEL maintainer="smcgeown@vmware.com"
+
+ADD ca-trust /tmp/
+ADD VERSION .
+
+RUN yum update -y && yum -y install curl wget unzip git ca-certificates openssl jq && \
+    cat /tmp/vmware-issue.crt >> /etc/pki/tls/certs/ca-bundle.crt && \
+    cat /tmp/vmware-root.crt >> /etc/pki/tls/certs/ca-bundle.crt
