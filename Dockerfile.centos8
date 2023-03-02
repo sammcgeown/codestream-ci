@@ -1,0 +1,12 @@
+FROM centos:centos8
+LABEL maintainer="smcgeown@vmware.com"
+
+ADD ca-trust /etc/pki/ca-trust/source/anchors/
+
+RUN cd /etc/yum.repos.d/ && \
+    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+RUN yum -y install curl wget unzip git ca-certificates openssl jq && \
+    update-ca-trust force-enable && \
+    update-ca-trust extract
