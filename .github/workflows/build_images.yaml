@@ -29,14 +29,49 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: Docker meta
+      - name: Docker meta Centos7
         id: meta
-        uses: docker/metadata-action@v3.6.2
+        uses: docker/metadata-action@v4
         with:
+          flavor: |
+            prefix=centos7,onlatest=false
           images: |
             sammcgeown/codestream-ci
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            type=raw,value=latest
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Docker meta Centos8
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          flavor: |
+            prefix=centos8,onlatest=true
+          images: |
+            sammcgeown/codestream-ci
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Docker meta Photon
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          flavor: |
+            prefix=photon,onlatest=true
+          images: |
+            sammcgeown/codestream-ci
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
@@ -66,7 +101,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
+      - name: BuildCentos7
         uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
